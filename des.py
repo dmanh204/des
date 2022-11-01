@@ -88,7 +88,7 @@ permuted_choice_two =   [14, 17, 11, 24,  1,  5,  3, 28,
                          15,  6, 21, 10, 23, 19, 12,  4,
                          26,  8, 16,  7, 27, 20, 13,  2,
                          41, 52, 31, 37, 47, 55, 30, 40,
-                         51, 45, 33, 48, 44, 49, 29, 56,
+                         51, 45, 33, 48, 44, 49, 39, 56,
                          34, 53, 46, 42, 50, 36, 29, 32]
 
 schedule_of_left_shift = [1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1]
@@ -156,11 +156,14 @@ def ghep56(giatri, left, right):
             temp = 0xf0
             temp = temp & right[i]
             temp = temp >> 4
+            giatri[i+3] = giatri[i+3] & 0xf0
             giatri[i+3] = giatri[i+3] | temp
             temp = 0x0f
             temp = temp & right[i]
             temp = temp << 4
+            giatri[i+4] = giatri[i+4] & 0x0f
             giatri[i+4] = giatri[i+4] | temp
+      giatri[6] = giatri[6] & 0xf0
       giatri[6] = giatri[6] | ((0xf0 & right[3]) >> 4) 
 
 # ham dich vong key
