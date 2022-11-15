@@ -271,15 +271,12 @@ def taokey(khoa, bokhoa):
             ghep56(giatrighep, trai, phai)
             bokhoa[i].keyround = hoanvi(giatrighep, permuted_choice_two)
 
-def encrypt(plaintext, botext, bokey):
+def encrypt_des(plaintext, bokey):
     sauhoanvi = hoanvi(plaintext, initial_permutation)
 
     left = [0,0,0,0]
     right = [0,0,0,0]
     tach64(sauhoanvi, left, right)
-    trai = left.copy()              # copy list left
-    phai = right.copy()             # copy list right
-    botext.append(text(trai,phai))  # tao object text luu 2 list, object la 1 gia tri cua list botext
     
     for i in range (16):
         temp48 = hoanvi(right, expansion_permutation)   # hoan vi mo rong 32->48
@@ -295,9 +292,6 @@ def encrypt(plaintext, botext, bokey):
         left = right.copy()        # doi vi tri
         right = temp48.copy()
 
-        trai = left.copy()
-        phai = right.copy()
-        botext.append(text(trai, phai))
     # final swap
     temp = left.copy()
     left = right.copy()
@@ -309,14 +303,11 @@ def encrypt(plaintext, botext, bokey):
     ketqua = hoanvi(preoutput, inverse_initial_permutation)
     return ketqua
 
-def decrypt(ciphertext, botext, bokey):
+def decrypt_des(ciphertext, bokey):
     sauhoanvi = hoanvi(ciphertext, initial_permutation)
     left = [0,0,0,0]
     right = [0,0,0,0]
     tach64(sauhoanvi, left, right)
-    trai = left.copy()              # copy list left
-    phai = right.copy()             # copy list right
-    botext.append(text(trai,phai))  # tao object text luu 2 list, object la 1 gia tri cua list botext
     for i in range (15, -1, -1):
         temp48 = hoanvi(right, expansion_permutation)   # hoan vi mo rong 32->48
         for j in range(6):
@@ -327,10 +318,6 @@ def decrypt(ciphertext, botext, bokey):
             temp48[j] = temp48[j] ^ left[j]    # XOR 32 bit dau cua temp48 voi left
         left = right.copy()        # doi vi tri 
         right = temp48.copy()
-
-        trai = left.copy()
-        phai = right.copy()
-        botext.append(text(trai, phai))
     # final swap
     temp = left.copy()
     left = right.copy()
